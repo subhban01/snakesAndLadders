@@ -24,12 +24,43 @@ const snakesMap = {
 	99: 78
 }
 
-//initializing snake & ladder boxes
 snakeBoxes = Object.keys(snakesMap);
+ladderBoxes = Object.keys(ladderMap);
+
+
+
+//creating the boxes
+var markup = '';
+for (var i = 1; i <= 100; i++) {
+	markup += '<div class="box">' + i + '</div>';
+}
+$('.snlContainer').append(markup);
+
+
+
+
+//display Snakes table
+var markup = '';
+for (var i = 0; i < snakeBoxes.length; i++) {
+	markup += '<div class="snake-row"><div>' + snakeBoxes[i] + '</div><div>' + snakesMap[snakeBoxes[i]] + '</div> </div>';
+}
+$('.snake-table').append(markup);
+
+
+
+//display Ladder table
+var markup = '';
+for (var i = 0; i < ladderBoxes.length; i++) {
+	markup += '<div class="ladder-row"><div>' + ladderBoxes[i] + '</div><div>' + ladderMap[ladderBoxes[i]] + '</div> </div>';
+}
+$('.ladder-table').append(markup);
+
+
+
+//initializing snake & ladder boxes
 for(var i in snakeBoxes){
 	$('.box')[parseInt(snakeBoxes[i])-1].classList.add('danger');
 }
-ladderBoxes = Object.keys(ladderMap);
 for(var i in ladderBoxes){
 	$('.box')[parseInt(ladderBoxes[i])-1].classList.add('ladder');
 }
@@ -47,17 +78,16 @@ function play(){
 	$('.roll').css('opacity', '0.5');
 
 	var currentRoll = rollDice();
-	$('.display').text('You rolled '+currentRoll);
+	$('.display').text('You rolled ').append('<span>' + currentRoll + '</span>');
 	$('.display').show();
 	setTimeout(function(){
 		$('.display').fadeOut(delay);
+		if(currentPos == 100)
+			alert('You Won!! Buy a prize for yourself ;)');
 	}, 1000);
 
 	if(currentPos+currentRoll <= 100)
 		currentPos+=currentRoll;
-	
-	if(currentPos == 100)
-		console.log('You Win!!');
 
 	if(ladderMap[currentPos]){
 		var diff = ladderMap[currentPos] - currentPos;
