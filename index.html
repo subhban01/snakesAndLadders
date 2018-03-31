@@ -4,15 +4,25 @@
 	<title>Snakes and Ladders</title>
 	<script type="text/javascript" src="jquery-3.3.1.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
 </head>
 <body>
-	<div class="container">
-		<div class="snake-table">Snakes table</div>
-		<div class="snlContainer"></div>
-		<div class="ladder-table">Ladders table</div>
+	<div class="main">
+		<div class="container">
+			<div class="snake-table">Snakes table</div>
+			<div class="snlContainer"></div>
+			<div class="ladder-table">Ladders table</div>
+		</div>
+		<div class="controls">
+			<div class="display"></div>
+			<div class="roll" onclick="play()">ROLL DICE</div>
+			<div class="stats">
+				<div>Previous position:</div>
+				<div>Current roll:</div>
+				<div>Current position:</div>
+			</div>
+		</div>
 	</div>
-	<div class="display"></div>
-<div class="roll" onclick="play()">ROLL DICE</div>
 	<script type="text/javascript" src="script.js"></script>
 </body>
 </html>

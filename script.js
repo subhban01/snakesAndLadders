@@ -1,8 +1,8 @@
 const max = 6;
 const min = 1;
 var currentPos = 0;
-var prev = 0;
-const delay = 3000;
+var prev = -1;
+const delay = 2000;
 const ladderMap = {
 	4: 14,
 	9: 31,
@@ -72,6 +72,7 @@ function rollDice(){
 }
 
 function play(){
+	$('.box').removeClass('selected');
 	// $('.roll').hide();
 	$('.roll').attr('onclick','').unbind('click');
 	$('.roll').text('please wait...');
@@ -84,36 +85,69 @@ function play(){
 		$('.display').fadeOut(delay);
 		if(currentPos == 100)
 			alert('You Won!! Buy a prize for yourself ;)');
-	}, 1000);
+	}, 2000);
 
 	if(currentPos+currentRoll <= 100)
 		currentPos+=currentRoll;
 
 	if(ladderMap[currentPos]){
-		var diff = ladderMap[currentPos] - currentPos;
-
-		currentPos = ladderMap[currentPos];
+		animate(currentPos, ladderMap[currentPos], 'green');
 	}
 
 	if(snakesMap[currentPos]){
-		currentPos = snakesMap[currentPos];
+		animate(currentPos, snakesMap[currentPos], 'red');
+		// currentPos = snakesMap[currentPos];
 	}
+
+	$('.stats div:nth-child(1)').text('Previous position: '+ (prev+1));
+	$('.stats div:nth-child(2)').text('Current roll: '+ currentRoll);
+	$('.stats div:nth-child(3)').text('Current position: '+ currentPos);
 
 	element = document.getElementsByClassName('box')[currentPos-1];
 		console.log('roll', currentRoll, 'currentPos', currentPos);
 		element.classList.add("selected");
 
 		prevE = document.getElementsByClassName('box')[prev];
-		prevE.classList.remove("selected");
+		if(prevE)
+			prevE.classList.remove("selected");
 		prev = currentPos-1;
 
 	setTimeout(function(){
 		$('.roll').css('opacity', '1');
 		$('.roll').text('ROLL DICE');
 		$('.roll').on('click', play);
-	},delay-1500);
+	},delay+1000);
 }
 
+
+function animate(current, final, type){
+	console.log('rrrr',current,final);
+	var diff = Math.abs(final - current);
+	if(type == 'green'){
+		var intervalID = setInterval(function(){
+			diff--;
+			if(diff < 0)
+				clearInterval(intervalID);
+			$('.box')[current-2].classList.remove('selected');
+			$('.box')[current-1].classList.add('selected');
+			current++;
+			currentPos = current-1;
+		}, 200);
+		
+		// currentPos = ladderMap[currentPos];
+	}
+	else if(type == 'red'){
+		var intervalID = setInterval(function(){
+			diff--;
+			if(diff < 0)
+				clearInterval(intervalID);
+			$('.box')[current].classList.remove('selected');
+			$('.box')[current-1].classList.add('selected');
+			current--;
+			currentPos = current+1;
+		}, 200);
+	}
+}
 
 
 
