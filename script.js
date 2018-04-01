@@ -80,12 +80,14 @@ function play(){
 
 	var currentRoll = rollDice();
 	$('.display').text('You rolled ').append('<span>' + currentRoll + '</span>');
-	$('.display').show();
+	// $('.display').show();
+	$(".display").css({ opacity: 1 });
 	setTimeout(function(){
-		$('.display').fadeOut(delay);
+		// $('.display').fadeOut(delay);
+		$(".display").animate({ opacity: 0 });
 		if(currentPos == 100)
 			alert('You Won!! Buy a prize for yourself ;)');
-	}, 2000);
+	}, delay-300);
 
 	if(currentPos+currentRoll <= 100)
 		currentPos+=currentRoll;
@@ -104,11 +106,11 @@ function play(){
 	$('.stats div:nth-child(3)').text('Current position: '+ currentPos);
 
 	element = document.getElementsByClassName('box')[currentPos-1];
-		console.log('roll', currentRoll, 'currentPos', currentPos);
+		// console.log('roll', currentRoll, 'currentPos', currentPos);
 		element.classList.add("selected");
 
 		prevE = document.getElementsByClassName('box')[prev];
-		if(prevE)
+		if(prevE && prev !== currentPos-1)
 			prevE.classList.remove("selected");
 		prev = currentPos-1;
 
@@ -116,12 +118,12 @@ function play(){
 		$('.roll').css('opacity', '1');
 		$('.roll').text('ROLL DICE');
 		$('.roll').on('click', play);
-	},delay+1000);
+	},delay);
 }
 
 
 function animate(current, final, type){
-	console.log('rrrr',current,final);
+	// console.log('rrrr',current,final);
 	var diff = Math.abs(final - current);
 	if(type == 'green'){
 		var intervalID = setInterval(function(){
